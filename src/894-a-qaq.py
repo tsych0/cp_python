@@ -1,7 +1,7 @@
 # Created by Ayush Biswas at 2025/08/07 16:37
 # https://codeforces.com/problemset/problem/894/A
 
-from cpio import *
+from cpio.cpio import sol
 
 # @code begin
 

@@ -1,6 +1,6 @@
 # Created by Ayush Biswas at 2025/08/07 22:28
 # https://codeforces.com/problemset/problem/1843/C
-from cpio import *
+from cpio.cpio import sol_n
 
 # @code begin
 

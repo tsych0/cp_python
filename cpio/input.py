@@ -1,7 +1,8 @@
-from cpio.types import *
+from cpio.types import Chars, Binary
 
 # @code begin
 import sys
+from array import array
 
 
 class CPInput:
@@ -25,8 +26,8 @@ class CPInput:
     def read_int(self) -> int:
         return int(self.read_line())
 
-    def read_ints(self) -> list[int]:
-        return list(map(int, self.read_line().split()))
+    def read_ints(self) -> array:
+        return array("q", map(int, self.read_line().split()))
 
     def read_str(self) -> str:
         return self.read_line()
@@ -35,13 +36,13 @@ class CPInput:
         return self.read_line().split()
 
     def read_chars(self) -> Chars:
-        return Chars(list(self.read_line()))
+        return Chars(array("B", self.read_line()))
 
     def read_binary(self) -> Binary:
-        return Binary([int(c) for c in self.read_line() if c in "01"])
+        return Binary(array("h", (int(c) for c in self.read_line() if c in "01")))
 
-    def read_floats(self) -> list[float]:
-        return list(map(float, self.read_line().split()))
+    def read_floats(self) -> array:
+        return array("d", map(float, self.read_line().split()))
 
 
 # @code end

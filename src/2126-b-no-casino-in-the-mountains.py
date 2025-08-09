@@ -1,14 +1,11 @@
 # Created by Ayush Biswas at 2025/08/08 10:04
 # https://codeforces.com/problemset/problem/2126/B
 
-from cpio import *
+from cpio.cpio import sol_n
 
 
 # @code begin
-from typing import Generator
-
-
-def hike(a: list[int], k: int) -> Generator[bool]:
+def hike(a: list[int], k: int):
     r = 0
     for ai in a:
         if r == k:

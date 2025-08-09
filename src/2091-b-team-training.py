@@ -1,12 +1,11 @@
 # Created by Ayush Biswas at 2025/08/08 10:32
 # https://codeforces.com/problemset/problem/2091/B
-from cpio import *
+
+from cpio.cpio import sol_n
+
 
 # @code begin
-from typing import Generator
-
-
-def strong_teams(a: list[int], x: int) -> Generator[int]:
+def strong_teams(a: list[int], x: int):
     a = sorted(a, reverse=True)
     count = 0
     skill = 10**9

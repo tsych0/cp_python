@@ -1,6 +1,7 @@
 # Created by Ayush Biswas at 2025/08/07 23:03
 # https://codeforces.com/problemset/problem/1862/A
-from cpio import *
+from cpio.cpio import sol_n
+from cpio.types import Lines, Chars, BOOL
 
 # @code begin
 

@@ -1,11 +1,11 @@
-from cpio import *
+from cpio.cpio import sol_n
 
 # @code begin
 
 
-@sol("str")
-def solution(s: str) -> str:
-    return f"{len(s)}"
+@sol_n("n; ints")
+def solution(n: int, a: list[int]) -> int:
+    return n * sum(a)
 
 
 solution()

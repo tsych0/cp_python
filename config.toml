@@ -1,6 +1,6 @@
 author = "Ayush Biswas"
 
-editor = "pycharm"
+editor = "zed"
 
 [code]
 filename = '''{{#if (regex_is_match pattern="codeforces.com" on=url)}} {{#with (regex_captures
@@ -42,7 +42,7 @@ modifier = """
 {{{code}}}
 ###### main #####
 """
-lib_check_regex = "from.*{{name}}"
+lib_check_regex = "(from.*{{name}} import .*)|(from.*\\.{{name}} import .*)"
 
 [include]
 _ = "./cpio/"

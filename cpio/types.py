@@ -1,34 +1,7 @@
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Sequence
+from array import array
 
 T = TypeVar("T")
-E = TypeVar("E")
-
-
-class CPResult(Generic[T, E]):
-    """Result type similar to Rust's Result"""
-
-    def __init__(self, value: T | E, is_success: bool = True):
-        self._value = value
-        self._is_success = is_success
-
-    @classmethod
-    def success(cls, value: T) -> "CPResult[T, E]":
-        return cls(value, True)
-
-    @classmethod
-    def failure(cls, error: E) -> "CPResult[T, E]":
-        return cls(error, False)
-
-    def is_success(self) -> bool:
-        return self._is_success
-
-    def unwrap(self) -> T:
-        if not self._is_success:
-            raise Exception(f"Called unwrap on failure: {self._value}")
-        return self._value
-
-    def __str__(self) -> str:
-        return str(self._value)
 
 
 class Bool:
@@ -54,7 +27,7 @@ class BOOL:
 class Lines(Generic[T]):
     """Newline-separated list"""
 
-    def __init__(self, items: list[T]):
+    def __init__(self, items: Sequence[T]):
         self.items = items
 
     def __str__(self) -> str:
@@ -73,7 +46,7 @@ class Lines(Generic[T]):
 class Words(Generic[T]):
     """Space-separated list"""
 
-    def __init__(self, items: list[T]):
+    def __init__(self, items: Sequence[T]):
         self.items = items
 
     def __str__(self) -> str:
@@ -92,7 +65,7 @@ class Words(Generic[T]):
 class Binary:
     """Binary string (0s and 1s) type"""
 
-    def __init__(self, bits: list[int]):
+    def __init__(self, bits: array):
         self.bits = bits
 
     def __str__(self) -> str:
@@ -101,11 +74,17 @@ class Binary:
     def __iter__(self):
         return iter(self.bits)
 
+    def __getitem__(self, index):
+        return self.bits[index]
+
+    def __setitem__(self, key, value):
+        self.bits[key] = value
+
 
 class Chars:
     """Character array type"""
 
-    def __init__(self, chars: list[str]):
+    def __init__(self, chars: array):
         self.chars = chars
 
     def __str__(self) -> str:

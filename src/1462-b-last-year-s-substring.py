@@ -1,6 +1,7 @@
 # Created by Ayush Biswas at 2025/08/08 10:46
 # https://codeforces.com/problemset/problem/1462/B
-from cpio import *
+from cpio.cpio import sol_n
+from cpio.types import BOOL
 
 # @code begin
 from itertools import takewhile

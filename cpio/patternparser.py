@@ -1,5 +1,5 @@
-from cpio.input import *
-from cpio.types import *
+from cpio.input import CPInput
+from cpio.types import Lines, Words
 
 # @code begin
 from typing import Any

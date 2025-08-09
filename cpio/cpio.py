@@ -8,12 +8,15 @@ USAGE EXAMPLES:
 - Complex: @sol('n m q; n*Words[int]; m*str; q*Words[int:2]')
 """
 
-from cpio.patternparser import *
+from cpio.patternparser import PatternParser
+from cpio.input import CPInput
+from cpio.types import Lines, Words, BOOL, Bool
 
 # @code begin
 from typing import Callable
 from functools import wraps
 from io import StringIO
+import sys
 
 
 def sol(pattern: str):
