@@ -8,26 +8,36 @@ USAGE EXAMPLES:
 - Complex: @sol('n m q; n*Words[int]; m*str; q*Words[int:2]')
 """
 
-from cpio.patternparser import PatternParser
-from cpio.input import CPInput
-from cpio.types import Lines, Words, BOOL, Bool
+from cpio.input import (
+    _next_int,
+    _execute_pattern,
+    _compile_pattern,
+    _init_input_lines,
+    _advance_line,
+)
 
 # @code begin
+import sys
 from typing import Callable
 from functools import wraps
-from io import StringIO
-import sys
 
 
 def sol(pattern: str):
     """Main decorator for competitive programming problems"""
+    # Compile pattern at decoration time
+    compiled_ops = _compile_pattern(pattern)
 
     def decorator(func: Callable):
         @wraps(func)
         def wrapper():
-            input_reader = CPInput()
-            parser = PatternParser(input_reader)
-            results = parser.parse_pattern(pattern)
+            global _INPUT_LINES, _LINE_INDEX, _CURRENT_LINE_TOKENS, _TOKEN_INDEX
+            _init_input_lines()
+            _LINE_INDEX = 0
+            _CURRENT_LINE_TOKENS = []
+            _TOKEN_INDEX = 0
+            _advance_line()  # Load first line
+
+            results = _execute_pattern(compiled_ops)
             result = func(*results)
             print(result)
 
@@ -37,67 +47,34 @@ def sol(pattern: str):
 
 
 def sol_n(pattern: str):
-    """Decorator for multiple test cases"""
+    """Optimized decorator for multiple test cases"""
+    # Compile pattern at decoration time
+    compiled_ops = _compile_pattern(pattern)
 
     def decorator(func: Callable):
         @wraps(func)
         def wrapper():
-            input_reader = CPInput()
-            t = input_reader.read_int()
-            output_lines = []
+            global _INPUT_LINES, _LINE_INDEX, _CURRENT_LINE_TOKENS, _TOKEN_INDEX
+            _init_input_lines()
+            _LINE_INDEX = 0
+            _CURRENT_LINE_TOKENS = []
+            _TOKEN_INDEX = 0
+            _advance_line()  # Load first line
+
+            t = _next_int()
+            output_parts = []
+
             for _ in range(t):
-                parser = PatternParser(input_reader)
-                results = parser.parse_pattern(pattern)
+                results = _execute_pattern(compiled_ops)
                 result = func(*results)
-                output_lines.append(f"{result}\n")
-            sys.stdout.write("".join(output_lines))
+                output_parts.append(str(result))
+
+            # Single write operation
+            print("\n".join(output_parts))
 
         return wrapper
 
     return decorator
-
-
-def test_with_input(input_str: str, pattern: str):
-    """Helper for testing patterns"""
-
-    def decorator(func):
-        @wraps(func)
-        def wrapper():
-            input_reader = CPInput(StringIO(input_str))
-            parser = PatternParser(input_reader)
-            results = parser.parse_pattern(pattern)
-            result = func(*results)
-            print(f"Result: {result}")
-            return result
-
-        return wrapper
-
-    return decorator
-
-
-def lines_of(items: list) -> Lines:
-    """Create Lines from list"""
-    return Lines(items)
-
-
-def words_of(items: list) -> Words:
-    """Create Words from list"""
-    return Words(items)
-
-
-def grid_of(rows: list[list]) -> Lines[Words]:
-    """Create grid from list of lists"""
-    return lines_of([words_of(row) for row in rows])
-
-
-def bool_yes_no(value: bool) -> Bool:
-    """Create Yes/No boolean"""
-    return Bool(value)
-
-
-def bool_yes_no_caps(value: bool) -> BOOL:
-    """Create YES/NO boolean"""
-    return BOOL(value)
 
 
 def debug(*args, **kwargs):
