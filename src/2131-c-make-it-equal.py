@@ -5,6 +5,7 @@ from cpio.types import BOOL
 
 # @code begin
 fuck
+
 from collections import defaultdict
 from random import getrandbits
 
